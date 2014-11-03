@@ -1,0 +1,2914 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass IEEEtran
+\begin_preamble
+\usepackage{amssymb,amsmath,url}
+\usepackage[all]{xy}
+\renewcommand\[{\begin{equation}}
+\renewcommand\]{\end{equation}}
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding default
+\fontencoding global
+\font_roman lmodern
+\font_sans lmss
+\font_typewriter lmtt
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\paperfontsize default
+\spacing onehalf
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 0
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Two Port Calibration Insensitive to Flange Misalignment
+\end_layout
+
+\begin_layout Author
+Alexander Arsenovic, Robert M.
+ Weikle II, Jeffrey Hesler
+\end_layout
+
+\begin_layout Abstract
+As waveguide measurements continue to push upwards in frequency, waveguide
+ misalignment becomes a severe problem.
+ In this paper we present an alternative, slightly more general formulation
+ of a reflectometer calibration resistant to flange misalignment.
+ This new solution is used in combination with the well known Unknown Thru
+ algorithm to create a two-port calibration insensitive to flange misalignment.
+ The resultant calibration algorithm, termed MRC, is tested both numerically
+ and experimentally.
+ While the numerical simulation show that MRC works as intended, the experimenta
+l results indicate that there are other measurement errors which need to
+ be taken into account.
+ 
+\end_layout
+
+\begin_layout Page headings
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+PARstart{A} 
+\end_layout
+
+\end_inset
+
+s waveguide measurements continue to push upwards in frequency, waveguide
+ misalignment caused by mechanical tolerances becomes a severe problem
+\begin_inset CommandInset citation
+LatexCommand cite
+key "waveguideFlangesForAlma"
+
+\end_inset
+
+.
+ Not only does misalignment produce reflections at each flange connection,
+ but it creates measurement inaccuracies by inducing calibration error
+\begin_inset CommandInset citation
+LatexCommand cite
+key "666666666,5741780"
+
+\end_inset
+
+.
+ While improving the mechanical alignment mechanism is being addressed by
+ the IEEE P1875 working group
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ridler2009ieeebegins"
+
+\end_inset
+
+, new calibration algorithms have been developed to operate in the presence
+ of such misalignment
+\begin_inset CommandInset citation
+LatexCommand cite
+key "1643572"
+
+\end_inset
+
+.
+ The original solution to a reflectometer calibration utilizing delayed
+ shorts of unknown phase was given in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "132862"
+
+\end_inset
+
+.
+ Lui and Weikle helped to generalize this solution by allowing the load
+ to be arbitrary
+\begin_inset CommandInset citation
+LatexCommand cite
+key "1643572"
+
+\end_inset
+
+.
+ Their formulation, coupled with the modeling of a radiating rectangular
+ waveguide 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "6204075"
+
+\end_inset
+
+, produced a one-port calibration that was insensitive to flange misalignment.
+ This algorithm has been referred to by the acronym SDDL, an acronym for
+ the standard set; Short Delay Delay Load.
+\end_layout
+
+\begin_layout Standard
+While one-port measurements are of interest, full two-port capabilities
+ are desirable.
+ Currently, two-port calibrations at frequencies above 100GHz, are generally
+ made using either SOLT, or TRL.
+ Above 500GHz, the quarter-wave line required by TRL becomes difficult to
+ manufacture and use without damage.
+ The accuracy of measurements corrected using these algorithms depends on
+ the ability to realize either perfectly matched transmission standards,
+ or precisely known reflect standards.
+ By combining the SDDL technique
+\begin_inset CommandInset citation
+LatexCommand cite
+key "1643572"
+
+\end_inset
+
+ with the Unknown Thru 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ferrero_two-port_1992"
+
+\end_inset
+
+, a two-port calibration insensitive to flange misalignment is possible.
+ As a byproduct, this algorithm yields a direct measurement of the flange
+ alignment.
+ It is acknowledged that a calibration insensitive to flange misalignment
+ will not correct for the misalignment present in subsequent measurements.
+ It will however eliminate flange misalignment as source of calibration
+ error, an important step towards improving measurement accuracy in the
+ waveguide medium.
+\end_layout
+
+\begin_layout Standard
+This paper is organized as follows.
+ In Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Reflectometer-Calibration-with"
+
+\end_inset
+
+ we present a simplified and slightly more general derivation for the SDDL
+ one-port calibration which doesn't require a flush short.
+ This subtle improvement allows SDDL to be applied in mediums where flush
+ shorts are not available.
+ Furthermore, the new derivation yields the unknown delay phases directly
+ without determining the calibration error parameters, allowing SDDL to
+ be easily added into existing calibration software.
+ In Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Two-port-Calibration-(UnknownThr"
+
+\end_inset
+
+ a procedure to combine SDDL with the industry standard Unknown Thru algorithm
+ is described, thereby producing a two-port calibration insensitive to flange
+ misalignment.
+ The resultant algorithm, termed Misalignment Resistant Calibration (MRC),
+ is verified numerically as well as tested experimentally in rectangular
+ waveguide at 325-500GHz (WR-2.2, WM-??).
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Experiment-and-Simulation"
+
+\end_inset
+
+ evaluates MRC by way of comparison against the industry standard 12-term
+ and Unknown Thru calibrations.
+ This comparison is made through a set of verification standards.
+ 
+\end_layout
+
+\begin_layout Section
+Reflectometer Calibration with unknown lossless reflects
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Reflectometer-Calibration-with"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From a mathematical perspective, the problem of one-port calibration is
+ the determination of a Mobius transformation by observing how a known set
+ of points is altered by the transformation.
+ It is well known that three points uniquely determine the parameters of
+ the transform
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wiki:xxx"
+
+\end_inset
+
+.
+ If more than three points are observed, it is possible to exchange the
+ exact location of every point with different constraints.
+ The SDDL solution employs two lossless delay shorts of unknown phase.
+ When s-parameters are used, this physical constraint implies that the short,
+ and two delay shorts all lie on a common circle.
+ Enforcing this constraint algebraically leads to an involved solution
+\begin_inset CommandInset citation
+LatexCommand cite
+key "1643572"
+
+\end_inset
+
+.
+ An simplified solution is possible by analyzing the problem in the impedance
+ domain.
+\end_layout
+
+\begin_layout Subsection
+General Solution
+\end_layout
+
+\begin_layout Standard
+The problem of calibration is generally solved in the language of scattering
+ or transfer parameters but can equally well be solved in alternative domains
+ such as impedance or admittance
+\begin_inset CommandInset citation
+LatexCommand cite
+key "1128212"
+
+\end_inset
+
+.
+ The fact that the actual measurement hardware is based upon scattering
+ parameters is irrelevant.
+ Translating to and from different network representations amounts to a
+ change of basis.
+ For this formulation of SDDL we choose to work with impedance parameters
+ because it makes the lossless constraint simple to enforce, ie 
+\begin_inset Formula $\Re\{z\}=0$
+\end_inset
+
+.
+ In effect, this transforms the constraint that points lay on a circle with
+ the constraint that points are collinear.
+\end_layout
+
+\begin_layout Standard
+The measured input impedance of a load embedded behind a two-port network
+ is given by
+\begin_inset CommandInset citation
+LatexCommand cite
+key "0780360311"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{z_{in}}=z_{11}-\frac{z_{12}z_{21}}{z_{22}+\mathbf{z_{l}}}\label{eq: x=-2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Where 
+\begin_inset Formula $z_{ij}$
+\end_inset
+
+ are the impedance parameters of the embedding network, and 
+\begin_inset Formula $\mathbf{z_{l}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{z_{in}}$
+\end_inset
+
+ are the load and input impedance, respectively.
+ This can be put into the standard form of a Mobius transformation by treating
+ the determinant of the impedance matrix as a single variable,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{z_{in}}=\frac{\mathbf{z}_{\mathbf{l}}+\Delta z}{\mathbf{z_{l}}+z_{22}}\label{eq: x=-2-1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\Delta z$
+\end_inset
+
+ is the determinant of the two-port impedance matrix.
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+For our purposes, this formula is only used to demonstrate that the functional
+ relationship between input and load impedance is a Mobius transformation.
+ 
+\end_layout
+
+\begin_layout Standard
+To determine the phases of the two lossless delay-shorts, we make use of
+ the fact that a mobius transformation leaves the cross-ratio invariant
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wiki:xxx"
+
+\end_inset
+
+.
+ It is noted in passing that the usefulness of this property has be emphasized
+ in the past 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "4314711"
+
+\end_inset
+
+.
+ The cross-ratio between four complex numbers is defined by,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+[a,b,c,d]\equiv\frac{(a-b)(c-d)}{(a-d)(c-b)}\label{eq: x=}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A mobius transformation leaves this quantity unchanged, which implies that
+ the cross-ratio between any four input and load impedances are equal.
+ Representing all input impedance values with an apostrophe this invariance
+ is expressed by,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{(a'-b')(c'-d')}{(a'-d')(c'-b')}=\frac{(a-b)(c-d)}{(a-d)(c-b)}\label{eq: x=-1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Since all the input impedances are observable through measurement, their
+ cross ratio may all be lumped into a single complex number 
+\begin_inset Formula $z$
+\end_inset
+
+, which is known.
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{equation}
+z=\frac{(a-b)(c-d)}{(a-d)(c-b)}\label{eq: lumped cr}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ represent the impedances of the two delay shorts, and 
+\begin_inset Formula $c$
+\end_inset
+
+ and 
+\begin_inset Formula $d$
+\end_inset
+
+ represent the impedances for the two fully known standards.
+ The goal is to solve for 
+\begin_inset Formula $a$
+\end_inset
+
+ or 
+\begin_inset Formula $b$
+\end_inset
+
+ in terms of the other variables.
+ Cross multiplying 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq: lumped cr"
+
+\end_inset
+
+ and grouping terms alike in 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{equation}
+a\underbrace{\left(c-d-cz\right)}_{e}+b\underbrace{\left(d-c-dz\right)}_{f}+abz+\underbrace{cdz}_{g}=0\label{eq: lumped cr-1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Making the substitutions 
+\begin_inset Formula $e=\left(c-d-cz\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $f=\left(d-c-dz\right)$
+\end_inset
+
+, all of which are known, we have.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+ae+bf+abz+g=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Solving for 
+\begin_inset Formula $a$
+\end_inset
+
+, illustrates that 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ are related by a mobius transformation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a=-\frac{fb+g}{zb+e}\label{eq:a and b are mobius}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/intersectionoflineandcircle.svg
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Geometry of problem
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Geometry-of-problem"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Assuming 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ are delay shorts, their impedances will be purely imaginary.
+ Therefore, 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ are each one-dimensional, and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:a and b are mobius"
+
+\end_inset
+
+ may be interpreted geometrically as describing the intersection of a line
+ and a circle
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zwikker_advanced_2005"
+
+\end_inset
+
+, as illustrated in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Geometry-of-problem"
+
+\end_inset
+
+.
+ The constraints that 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ are purely imaginary may be enforced algebraically by applying 
+\begin_inset Formula $-a=\bar{a}$
+\end_inset
+
+ and 
+\begin_inset Formula $-b=\bar{b}$
+\end_inset
+
+ to 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:a and b are mobius"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+-a & = & \bar{a}\nonumber \\
+\frac{fb+g}{zb+e} & = & \frac{\bar{f}b-\bar{g}}{-\bar{z}b+\bar{e}}\nonumber \\
+\left(fb+g\right)\left(-\bar{z}b+\bar{e}\right) & = & \left(\bar{f}b+\bar{g}\right)\left(zb+e\right)\label{eq: cross multiply}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+expanding yields a quadratic in 
+\begin_inset Formula $b$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+b^{2}\left(-f\bar{z}-\bar{f}z\right)+b\left(-g\bar{z}+\bar{g}z+f\bar{e}-\bar{f}e\right)+\nonumber \\
++\left(g\bar{e}+\bar{g}e\right) & = & 0\\
+b^{2}\underbrace{\Re\left(-f\bar{z}\right)}_{A}+b\,\underbrace{j\Im\left(\bar{g}z+f\bar{e}\right)}_{B}+\underbrace{\Re\left(g\bar{e}\right)}_{C} & = & 0\label{eq: quadratic}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Replacing the polynomial coefficients with 
+\begin_inset Formula $A,B,$
+\end_inset
+
+ and 
+\begin_inset Formula $C$
+\end_inset
+
+ allows (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq: quadratic"
+
+\end_inset
+
+) to be solved for 
+\series bold
+
+\begin_inset Formula $b$
+\end_inset
+
+
+\series default
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+b=\frac{-B\pm\sqrt{B^{2}-4AC}}{2A}\label{eq:b =}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Once 
+\begin_inset Formula $b$
+\end_inset
+
+ is found then 
+\begin_inset Formula $a$
+\end_inset
+
+ may be found directly from 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:a and b are mobius"
+
+\end_inset
+
+.
+ An approximate value of 
+\begin_inset Formula $b$
+\end_inset
+
+ and/or 
+\begin_inset Formula $a$
+\end_inset
+
+, is required to determine the correct sign in the radical.
+ 
+\end_layout
+
+\begin_layout Standard
+Evaluating (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:b ="
+
+\end_inset
+
+) from measured s-parameter data, requires the data first be transformed
+ into the impedance domain.
+ This can be done with the familiar formula.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+z=\frac{s+1}{-s+1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Once both 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ are determined, they may be transformed back into reflection coefficient
+ values by the inverse transform,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+s=\frac{z-1}{z+1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is interesting to note that the cross-ratio invariance allows for the
+ determination of the partially defined calibration standards without having
+ to solve for the transformation parameters, ie the error parameters of
+ the calibration.
+ Once the partially known calibration standards are determined, a tradition
+ one-port calibration algorithm which accepts four standards can be employed.
+ This makes  SDDL easy to add as an additional feature to existing calibration
+ software.
+\end_layout
+
+\begin_layout Subsection
+Special Case of flush short (SDDL)
+\end_layout
+
+\begin_layout Standard
+It is instructive to compare the new formulation with previously derived
+ specific cases to gain some perspective.
+ The most recent solution, given in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "1643572"
+
+\end_inset
+
+, assumes the availability of a flush short.
+ This implies that either 
+\begin_inset Formula $c$
+\end_inset
+
+ or 
+\begin_inset Formula $d$
+\end_inset
+
+ will be 0, which by 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq: lumped cr-1"
+
+\end_inset
+
+ yields 
+\begin_inset Formula $g=0$
+\end_inset
+
+.
+ Reflecting on this condition geometrically, (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:a and b are mobius"
+
+\end_inset
+
+) becomes, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a=\frac{-fb}{zb+e}\label{eq:a and b are mobius-1}
+\end{equation}
+
+\end_inset
+
+When 
+\begin_inset Formula $b=0$
+\end_inset
+
+, 
+\begin_inset Formula $a=0$
+\end_inset
+
+ and thus, the right hand side represents a circle that passes through the
+ origin and the imaginary axis, as shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Geometry-of-problem2"
+
+\end_inset
+
+.
+ Given that 
+\begin_inset Formula $a\ne0$
+\end_inset
+
+, or else the cross ratio would collapse, 
+\begin_inset Formula $a$
+\end_inset
+
+ must be the other point of intersection.
+ This is a unique solution, so no sign choice must be made to evaluate 
+\begin_inset Formula $b$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/intersectionoflineandcircle2.svg
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Geometry of problem when a flush short is used.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Geometry-of-problem2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Working through the algebra,  
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq: quadratic"
+
+\end_inset
+
+ simplifies to,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+b^{2}\Re\left(-f\bar{z}\right)+bj\Im\left(f\bar{e}\right) & = & 0
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The solution for 
+\begin_inset Formula $b$
+\end_inset
+
+ is then, 
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{equation}
+b=j\frac{\Im\left(f\bar{e}\right)}{\Re\left(f\bar{z}\right)}\label{eq: sddl b=}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Again, once 
+\begin_inset Formula $b$
+\end_inset
+
+ is found then 
+\begin_inset Formula $a$
+\end_inset
+
+ may be found directly from 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:a and b are mobius"
+
+\end_inset
+
+.
+ 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+While this solution is valid, an more concise solution without intermediary
+ variables is possible.
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+Starting with the cross ratio 
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{equation}
+z=\frac{(a-b)(c-d)}{(a-d)(c-b)}\label{eq: lumped cr-2-2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Chose 
+\begin_inset Formula $d$
+\end_inset
+
+ to represent the short, so that 
+\begin_inset Formula $d=0$
+\end_inset
+
+, and rearrange the cross ratio as such,
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{eqnarray}
+z & = & \frac{(a-b)c}{a(c-b)}\label{eq: lumped cr-2-2-1}\\
+z-zbc^{-1} & = & \frac{a-b}{a}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now, since 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ are purely imaginary, the right hand side of this is purely real, 
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{eqnarray}
+\Im(z-zbc^{-1}) & = & 0\\
+\Im(z) & = & \Im(zbc^{-1})
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Formula $b$
+\end_inset
+
+ may be factored out by using it's anti-symmetry with respect to conjugation,
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{eqnarray}
+\Im(z) & = & \frac{1}{2j}\left(bzc^{-1}-\overline{b}\bar{z}\bar{c}^{-1}\right)\\
+\Im(z) & = & \frac{1}{2j}b\left(zc^{-1}+\bar{z}\bar{c}^{-1}\right)\\
+b & = & j\frac{\Im(z)}{\Re\left(zc^{-1}\right)}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+One can determine 
+\begin_inset Formula $a$
+\end_inset
+
+ by 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:a and b are mobius"
+
+\end_inset
+
+, or through a similar expression by calculating a different cross ratio
+ with the variables 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ swapped.
+ Such as , 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+a=j\frac{\Im(z_{a})}{\Re\left(z_{a}c^{-1}\right)},\qquad z_{a}=\frac{(b-a)(c-d)}{(b-d)(c-a)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Special Case of flush short and perfect match(SDDM)
+\end_layout
+
+\begin_layout Standard
+Next, to examine the original solution
+\begin_inset CommandInset citation
+LatexCommand cite
+key "132862"
+
+\end_inset
+
+ which assumed a flush short and a perfect matched load.
+ Given this set of standards the general method of solving the roots of
+ the quadratic in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq: quadratic"
+
+\end_inset
+
+) may be unstable due to the match standard having infinite impedance.
+ We have found that the accuracy of the solution depends on the numerical
+ approximation to infinity, which is undersireable.
+ A simple workaround can be made as follows.
+ Starting with the cross ratio 
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{equation}
+z=\frac{(a-b)(c-d)}{(a-d)(c-b)}\label{eq: lumped cr-2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Chose 
+\begin_inset Formula $d$
+\end_inset
+
+ to represent the short and 
+\begin_inset Formula $c$
+\end_inset
+
+ to represent the match, so that 
+\begin_inset Formula $d=0$
+\end_inset
+
+ and 
+\begin_inset Formula $c=\infty$
+\end_inset
+
+ .
+ The trick for a stable solution is to isolate 
+\begin_inset Formula $c$
+\end_inset
+
+ in a denominator, 
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{eqnarray}
+z & = & \frac{(a-b)c}{a(c-b)}\label{eq: lumped cr-2-1}\\
+zac-zab & = & ac-bc
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dividing by the 
+\begin_inset Formula $c$
+\end_inset
+
+, and taking the limit as 
+\begin_inset Formula $c\rightarrow\infty$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{eqnarray}
+za-\frac{zab}{c} & = & a-b\\
+b & = & a(1-z)
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This equation is dope.
+ 
+\end_layout
+
+\begin_layout Subsection
+Conclusion and Extension
+\end_layout
+
+\begin_layout Standard
+Through the usage of the cross ratio, an approach to one-port self calibration
+ has been given.
+ The method requires two fully known standards, and two partially determined
+ standards which have known values in one dimension.
+ By changing circuit representations, or any conformal transformation for
+ that matter, this constraint may be adjusted until it is convenient to
+ enforce.
+ It has been shown that previously derived solutions are specific cases
+ in which the known standards had values of 
+\begin_inset Formula $0$
+\end_inset
+
+ and/or 
+\begin_inset Formula $\infty$
+\end_inset
+
+ in the impedance domain.
+ 
+\end_layout
+
+\begin_layout Standard
+The applications of one-port self-calibration may be characterized by the
+ number of fully known standards employed.
+ Given that there are 6 degrees of freedom in a conformal transformation
+ acting on 2-dimensional space, the following schemes are possible,
+\end_layout
+
+\begin_layout Itemize
+>3 knowns (Overdetermined Least Squares) 
+\end_layout
+
+\begin_layout Itemize
+3 knowns (Standard SOL)
+\end_layout
+
+\begin_layout Itemize
+2 knowns + 2 half knowns (This paper)
+\end_layout
+
+\begin_layout Itemize
+1 known + 4 half knowns (To-be-done)
+\end_layout
+
+\begin_layout Standard
+There may be better ways to categorize one-port calibrations, but this scheme
+ seems a reasonable first draft.
+ It is also noted, though not explored, that the method presented here could
+ most certainty be simplified and extended through the use of geometric
+ conformal algebra
+\begin_inset CommandInset citation
+LatexCommand cite
+key "0521715954"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Two-port Calibration (UnknownThru)
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Two-port-Calibration-(UnknownThr"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+While SDDL can tolerate misalignment on reflect standards, at least one
+ transmissive connection is needed to correct two-port measurements.
+ The calibration algorithm known as 
+\emph on
+Unknown Thru
+\emph default
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ferrero_two-port_1992"
+
+\end_inset
+
+ provides precisely the self-calibration capabilities needed to handle misalignm
+ent on the thru standard.
+ Specifically, the Unknown Thru requires  that the 
+\emph on
+thru
+\emph default
+ standard be reciprocal and have a transmission phase known within 
+\begin_inset Formula $\pi$
+\end_inset
+
+.
+ The exact s-parameters of the standard are not required.
+ The Unknown Thru algorithm can be broken up into three discrete steps:
+ 
+\end_layout
+
+\begin_layout Enumerate
+One-port calibration on port 1 (yields 3 -terms)
+\end_layout
+
+\begin_layout Enumerate
+One-port calibration on port 2 (yields 3 -terms)
+\end_layout
+
+\begin_layout Enumerate
+Measurement of reciprocal Thru (yields 1-term)
+\end_layout
+
+\begin_layout Standard
+The Misalignment Resistant Calibration (MRC) is created by modifying the
+ UnknownThru to use the SDDL solution described in the previous section
+ for steps 1 and 2.
+ The third step is described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ferrero_two-port_1992"
+
+\end_inset
+
+, and need not be repeated here.
+ 
+\end_layout
+
+\begin_layout Subsection
+Implementation and Availability
+\end_layout
+
+\begin_layout Standard
+The SDDL, MRC, and other conventional algorithms have all been implemented
+ as part of the open-source python module scikit-rf
+\begin_inset CommandInset citation
+LatexCommand cite
+key "scikit-rf"
+
+\end_inset
+
+.
+ All algorithms have been tested numerically with a linear circuit simulation
+ to verify the solutions are correct and stable.
+ Details of the numerical verification is described in the following section.
+\end_layout
+
+\begin_layout Section
+Simulation
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Simulation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Numerical Verification 
+\end_layout
+
+\begin_layout Standard
+The Unknown Thru is part of a family of calibration algorithms known as
+ the error box model, or 8-term model 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "4119948,76439"
+
+\end_inset
+
+.
+ In this model, the true response of a two-port device 
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ is embedded within unknown networks 
+\begin_inset Formula $\mathbf{X}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{Y}$
+\end_inset
+
+ , illustrated in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Error-Box-Model"
+
+\end_inset
+
+.
+ As is common to most applications employing the error-box model, the s-paramete
+rs are transformed into wave cascading matrices which allows the combined
+ response to be calculated through matrix multiplication.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename /home/alex/Dropbox/cal_theory/error_box.svg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Diagram of the error box model
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Error-Box-Model"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The relation between the true response of a two-port and it's measured response
+ is expressed algebraically by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathbf{M=XTY}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Where 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbf{M}$
+\end_inset
+
+ is the measured response
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ is the true response
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbf{X,Y}$
+\end_inset
+
+ is the embedding networks representing the intervening circuitry
+\end_layout
+
+\begin_layout Standard
+In simulation, all of the networks 
+\begin_inset Formula $\mathbf{M,T,X}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{Y}$
+\end_inset
+
+ are observable, which allows the accuracy of the calibration algorithm
+ to be verified.
+ 
+\end_layout
+
+\begin_layout Standard
+A calibration is tested as follows.
+ First, random matrices are created for the error networks 
+\begin_inset Formula $\mathbf{X}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{Y}$
+\end_inset
+
+.
+ Next, the appropriate set of calibration standards 
+\begin_inset Formula $\left\{ \mathbf{T}\right\} $
+\end_inset
+
+ are sandwiched in between the 
+\begin_inset Formula $\mathbf{X}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{Y}$
+\end_inset
+
+, producing a corresponding set of fictitious measurements 
+\begin_inset Formula $\left\{ \mathbf{M}\right\} $
+\end_inset
+
+.
+ The algorithm under test is given the measurement set 
+\begin_inset Formula $\left\{ \mathbf{M}\right\} $
+\end_inset
+
+, and the assumed ideal responses 
+\begin_inset Formula $\left\{ \mathbf{I}\right\} $
+\end_inset
+
+.
+ For self-calibration algorithms, such as the UnknownThru, SDDL, and MRC,
+ the ideal standards are different from their true response, ie 
+\begin_inset Formula $\left\{ \mathbf{T}\right\} \neq\left\{ \mathbf{I}\right\} $
+\end_inset
+
+.
+ For example, to correctly test SDDL, it was given an ideal standard set
+ containing delay shorts of lengths 45
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ and 90
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, while the actual responses used to generate the corresponding measurements
+ where of lengths 30
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ and 120
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Once a calibration algorithm has run, it can produce a corrected response
+ from a measured device under test (DUT).
+ For an algorithm to be considering working, it must correctly determine,
+ inasmuch as possible, the parameters of the embedding networks 
+\begin_inset Formula $\mathbf{X}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{Y}$
+\end_inset
+
+ as well as random DUTs within a reasonable numerical accuracy.
+ This entire process is built into the calibration test-suit of scikit-rf.
+\end_layout
+
+\begin_layout Standard
+While numerical simulation may be used to verify that an algorithm is producing
+ a valid solution, it also provides a way to model experimental measurements.
+ In the next section, an experimental comparison of the SOLT, UnknownThru
+ and MRC  is given, followed by a simulation of expected results.
+\end_layout
+
+\begin_layout Section
+Experiment and Simulation
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Experiment-and-Simulation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Measurement Procedure
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Measurement-Procedure"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To test the calibration algorithm measurements were made in the 325-500GHz
+ (WR-2.2 , WM-?) frequency band using a pair of Virginia Diodes extender
+ heads (VNAX TXRX-TXRX), driven by a Agilent PNA-X.
+ The flanges at the test ports were altered by reaming out the alignment
+ holes to a diameter of .0066
+\begin_inset Quotes erd
+\end_inset
+
+ to induce a larger amount of misalignment.
+ The resultant amount of alignment tolerance was chosen to equal the flange's
+ designed tolerances when used in the WR-1.0 (WM-250) band, i.e.
+ the worst-case expected misalignment.
+ In order to prevent the need to ream out the calibration standards, the
+ alignment pins were removed from the test-port flanges.
+ A picture of the modified test-ports is shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Picture-of-the"
+
+\end_inset
+
+ .
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/Photo Jul 31, 2 42 34 PM.jpg
+	lyxscale 10
+	scale 10
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Picture of the test-ports with alignment pins removed
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Picture-of-the"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The MRC calibration was created from measurements a flush short, two delay
+ shorts (realized with delay shims), the radiating open, and a flush thru.
+ Because pins were removed from the test-ports, as described in Section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Measurement-Procedure"
+
+\end_inset
+
+, the inner dowel holes were used to provide alignment during the thru measureme
+nt.
+ For comparison, 12-term and Unknown Thru algorithms were created from the
+ identical measurement data with the exception that the radiating open was
+ replaced by a matched load.
+ In order for the calibration kits to be as similar as possible, four reflect
+ standards were used in both the 12-term and Unknown Thru calibrations.
+ Both of these calibrations used an overdetermined least squares algorithm
+ similar to that described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "1427566"
+
+\end_inset
+
+ for the one-port stages of calibration.
+ 
+\end_layout
+
+\begin_layout Standard
+Although various metrics have been used to demonstrate calibration quality,
+ we find the measurement of verification standards to be the most interpretable
+ and relevant.
+ A series of devices were measured and corrected using all three of the
+ calibrations, producing a set of data which can be directly compared.
+ Both transmissive and reflective devices were measured to accurately represent
+ the algorithms performance on a whole.
+ These results are shown in Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of swgst "
+
+\end_inset
+
+-
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of swg s21"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsection
+Results
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of swgst "
+
+\end_inset
+
+ shows the corrected reflection coefficient from a 1
+\begin_inset Quotes erd
+\end_inset
+
+ straight waveguide terminated with a flush short on the far port.
+ Also shown is the theoretical response of an ideal rectangular waveguide
+ 1
+\begin_inset Quotes erd
+\end_inset
+
+ long with finite conductivity on the waveguide walls.
+ A resistivity of 
+\begin_inset Formula $2.8e^{-8}\Omega m$
+\end_inset
+
+, and surface roughness of .05
+\begin_inset Formula $\mu m$
+\end_inset
+
+ RMS was chosen as reasonable values which most closely match the measurements.
+ Both 12-term and Unknown Thru produce identical responses, as is expected
+ for non-transmissive devices.
+ All traces are similar with the exception that MRC produces a smaller ripple
+ at the lower end of the band.
+\end_layout
+
+\begin_layout Standard
+Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of swg s11"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of swg s21"
+
+\end_inset
+
+ show the corrected response of a 1
+\begin_inset Quotes erd
+\end_inset
+
+ straight waveguide measured in transmission.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of swg s21"
+
+\end_inset
+
+ demonstrates that MRC shows the best agreement with the theoretical response.
+ It can be seen that the 12-term algorithm produces high frequency ripples
+ of about 
+\begin_inset Formula $\pm.5\mbox{dB}$
+\end_inset
+
+, about the theoretical response, while the Unknown through algorithm has
+ a different frequency dependence and minor ripple.
+\end_layout
+
+\begin_layout Subsection
+Modeling results through simulation
+\end_layout
+
+\begin_layout Standard
+Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:simulation  swgst"
+
+\end_inset
+
+ through 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:simulation  swg s21"
+
+\end_inset
+
+ are simulations corresponding to the measurements in Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of swgst "
+
+\end_inset
+
+-
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of swg s21"
+
+\end_inset
+
+.
+ A numerical simulation, as described in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Simulation"
+
+\end_inset
+
+ was constructed, and the true calibration standards where perturbed heuristical
+ly until simulated results agreed with the measurements.
+ In these simulations the embedding networks 
+\begin_inset Formula $\mathbf{X}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{Y}$
+\end_inset
+
+ were taken from a previous calibration, created from with experimental
+ measurements.
+ The exact responses of 
+\begin_inset Formula $\mathbf{X}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{Y}$
+\end_inset
+
+ are not needed to capture the general effects, just their approximate values.
+ 
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+true
+\emph default
+ calibration standards were perturbed by cascading a model of the misaligned
+ flange in front of the delay shorts, and thru standard.
+ An equivalent circuit for the misaligned flange can be coarsely approximated
+ by shunt susceptance
+\begin_inset CommandInset citation
+LatexCommand cite
+key "9780471208068"
+
+\end_inset
+
+, as shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:ckt model"
+
+\end_inset
+
+.
+ More sophisticated models of waveguide misalignment produce frequency-dependent
+ values for the susceptance, but for our purposes, simple lumped circuit
+ elements are sufficient.
+ The nominal values of the shunt capacitance and inductance can be chosen
+ based upon the expected amount of misalignment.
+ These values were then adjusted within reason until agreement with measurements
+ was achieved.
+ Eventually, values of 2fF and 4nH where were chosen.
+ 
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+ Instead of choosing fixed values for the capacitance and inductance, they
+ were randomly generated with a uniform distribution about the nominal values.
+ This introduces a stochastic nature to the simulated results as the output
+ plots change every-time the simulation is run.
+ It is possible to graphically represent the variance with error bounds
+ on the simulated results, but this level of rigor was deemed unnecessary
+ given the conclusion drawn from this simulation, as will be made clear.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In addition to the flange perturbations, zero-mean white gaussian phase
+ noise was added to the fictitious measurements.
+ To accurately reflect observed noise characteristics, different amounts
+ of noise was added to the transmission than to the reflective s-parameters.
+ In summary, values chosen for the adjustable parameters used in the simulation
+ were, 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\sigma_{\angle S_{ij}}=.8^{\circ}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\sigma_{\angle S_{ii}}=.2^{\circ}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+C = 2fF
+\end_layout
+
+\begin_layout Itemize
+L = 4nH
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/flange_ckt_model.svg
+	lyxscale 10
+	display false
+	scale 150
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Circuit model used to approximate a misalignment flange 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:ckt model"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Observations
+\end_layout
+
+\begin_layout Standard
+By comparing figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of swgst "
+
+\end_inset
+
+-
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of swg s21"
+
+\end_inset
+
+ with figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:simulation  swgst"
+
+\end_inset
+
+-
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:simulation  swg s21"
+
+\end_inset
+
+ it is clear that the simulated performance of the MRC algorithm is substantiall
+y better than the measured results.
+ This suggests the existence of additional sources of uncertainty other
+ than flange misalignment.
+ Some specific comments about the results:
+\end_layout
+
+\begin_layout Itemize
+It was not possible to degrade MRC's corrected results given the types of
+ perturbations used in this simulation.
+ One exception is the reflection from an ideal 1
+\begin_inset Quotes erd
+\end_inset
+
+ waveguide, as shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:simulation  swg s11"
+
+\end_inset
+
+.
+ MRC's result is directly proportional to the amount of phase noise in the
+ simulation.
+\end_layout
+
+\begin_layout Itemize
+MRC's corrected response in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of swgst "
+
+\end_inset
+
+ differs greatly from the simulation in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:simulation  swgst"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+Regarding the theoretical responses in figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of swgst "
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of thru  s21"
+
+\end_inset
+
+: It was not possible to simultaneous achieve the best fit between theory
+ and measurement, given a single value for waveguide loss and roughness.
+ The cause of this discrepancy is unknown.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/Straight_Waveguide+Short.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Corrected measurement of the reflection coefficient from a 1
+\begin_inset Quotes erd
+\end_inset
+
+ straight waveguide terminated with a short (SOLT and UnknownThru, produce
+ identical results as expected)
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Corrected-measurement-of swgst "
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/1"_Waveguide_Reflect.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Corrected measurement of the reflection coefficient from a 1
+\begin_inset Quotes erd
+\end_inset
+
+ straight waveguide
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Corrected-measurement-of swg s11"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/1"_Waveguide_Transmit.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Corrected measurement of the transmission coefficient through a 1
+\begin_inset Quotes erd
+\end_inset
+
+ straight waveguide
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Corrected-measurement-of swg s21"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/simulation_swgst_s11_.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulation of corrected measurement of the reflection coefficient from a
+ 1
+\begin_inset Quotes erd
+\end_inset
+
+ straight waveguide terminated with a short (SOLT and UnknownThru, produce
+ identical results as expected)
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:simulation  swgst"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/simulation_swg_s11_.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulation of corrected measurement of the reflection coefficient from a
+ 1
+\begin_inset Quotes erd
+\end_inset
+
+ straight waveguide
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:simulation  swg s11"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/simulation_swg_s21_.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulation of corrected measurement of the transmission coefficient through
+ a 1
+\begin_inset Quotes erd
+\end_inset
+
+ straight waveguide
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:simulation  swg s21"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/Flush_Thru_s11.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Corrected measurement of the reflection coefficient from a flush thru connection
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Corrected-measurement-of thru s11"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/Flush_Thru_s21.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Corrected measurement of the reflection coefficient from a flush thru connection
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Corrected-measurement-of thru  s21"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/simulation_thru_s11_.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulated measurement of the reflection coefficient from a flush thru connection
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:sim-measurement-of thru s11-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/simulation_thru_s21_.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulated measurement of the reflection coefficient from a flush thru connection
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:sim-measurement-of thru  s21-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Absolute measurement of the flange misalignment
+\end_layout
+
+\begin_layout Standard
+A unique characteristic of MRC algorithm is it's ability to measure the
+ absolute flange misalignment between a pair of test-ports.
+ In an attempt to demonstrate this, the flush through was measured a second
+ time, without being used in the calibrations.
+  The reflection and transmission coefficient of the flush through is shown
+ in figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of thru s11"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Corrected-measurement-of thru  s21"
+
+\end_inset
+
+, respectively.
+ Note that the result of the 12-term calibration is expected to be very
+ close to ideal, as it is only a measure of repeatability.
+ The 12-term response does yield a way to estimate an appropriate noise
+ level.
+ Accompanying simulations of a perfect flush thru are shown in figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sim-measurement-of thru s11-1"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sim-measurement-of thru  s21-1"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsection
+Summary 
+\end_layout
+
+\begin_layout Standard
+Although the MRC calibration appears to improve calibration quality for
+ some verification standards, these improvements are less than expected
+ from corresponding simulations.
+ The inconsistency between simulated and measured performance indicate that
+ there are other problems with the measurement system beyond flange misalignment.
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+We have presented an alternative, slightly more general formulation of the
+ SDDL algorithm utilizing the cross-ratio.
+ This solution is used in combination with the Unknown Thru to create a
+ two-port calibration insensitive to flange misalignment.
+ The resultant calibration algorithm, termed MRC, has been testing both
+ numerically and experimentally.
+ While the numerical simulation show that MRC works as intended, the experimenta
+l results indicate that there are other measurement errors which need to
+ be taken into account.
+ 
+\end_layout
+
+\begin_layout Standard
+Although the MRC, and SDDL algorithms are designed to operate in the presence
+ of flange misalignment, they may be applicable to other measurement mediums
+ and scenarios where similar partially known reflective standards are advantageo
+us.
+ All algorithms have been implemented and tested as part of the open-source
+ python module scikit-rf.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "/home/alex/Dropbox/research/phd/phd"
+options "ieeetr"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
