@@ -1,0 +1,1451 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass beamer
+\begin_preamble
+
+\usetheme{Dresden}
+%\usefonttheme[onlylarge]{serif}
+%\setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[text line]{\hfill\insertframenumber}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{normal text}{fg=black}
+\usepackage{lmodern}
+\setbeamertemplate{bibliography item}{[\theenumiv]}
+\usepackage{minted}
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman lmodern
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_amsmath 2
+\use_esint 0
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 1
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Two Port Calibration Insensitive to Flange Misalignment
+\end_layout
+
+\begin_layout Author
+Alexander Arsenovic
+\begin_inset Formula $_{*}$
+\end_inset
+
+, Robert M.
+ Weikle II
+\begin_inset Formula $_{\dagger}$
+\end_inset
+
+, Jeffrey Hesler
+\begin_inset Formula $_{*}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Institute
+(*)
+\begin_inset Graphics
+	filename pics/vdi_black.svg
+	scale 50
+
+\end_inset
+
+ 
+\begin_inset space \hfill{}
+\end_inset
+
+(
+\begin_inset Formula $\dagger$
+\end_inset
+
+) 
+\begin_inset Graphics
+	filename pics/University_of_Virginia_logo.svg
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subtitle
+ARFTG 84th Microwave Measurement Conference
+\end_layout
+
+\begin_layout Date
+12/04/2014 
+\begin_inset space ~
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pgfdeclareimage[height=1cm]{institution-logo}{./pics/vdi_black}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+logo{
+\backslash
+pgfuseimage{institution-logo}}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+logo{
+\backslash
+includegraphics[height=0.8cm]{./pics/vdi_black.png}
+\backslash
+vspace{205pt}} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+The following causes the table of contents to be shown at the beginning
+ of every subsection.
+ Delete this, if you do not want it.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+AtBeginSection[]{
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+frame<beamer>{ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+frametitle{Outline}   
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+tableofcontents[currentsection,currentsubsection] 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Outline
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout BeginFrame
+Context
+\end_layout
+
+\begin_layout Itemize
+As waveguide measurements continue to push upwards in frequency, waveguide
+ misalignment caused by mechanical tolerances becomes a severe problem
+\begin_inset CommandInset citation
+LatexCommand cite
+key "waveguideFlangesForAlma"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+This creates measurement inaccuracies due to calibration error
+\begin_inset CommandInset citation
+LatexCommand cite
+key "666666666,5741780"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+Two Solutions
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Improve flange 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ reduce misalignment
+\end_layout
+
+\begin_layout Enumerate
+Use a calibration routine tolerant of misalignment 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pics/Photo Jul 31, 2 42 34 PM.jpg
+	lyxscale 5
+	scale 5
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Why do this?
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Cons:
+\end_layout
+
+\begin_layout Itemize
+A calibration insensitive to flange misalignment 
+\series bold
+will not
+\series default
+ correct for the misalignment present in subsequent measurements.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Pros:
+\end_layout
+
+\begin_layout Itemize
+Eliminate flange misalignment as source of calibration error.
+\end_layout
+
+\begin_layout Itemize
+Yield a direct measurement of the flange alignment.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Theory (not much to it)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+SDDRo
+\series default
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "1643572"
+
+\end_inset
+
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+equation (17) has incorrect sign in the argument
+\end_layout
+
+\end_inset
+
+ can tolerate misalignment on reflect standards 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Unknown Thru
+\series default
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ferrero_two-port_1992"
+
+\end_inset
+
+ can tolerate misalignment on the thru standard.
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\series bold
+SDDRo
+\series default
+ + 
+\series bold
+UnknownThru
+\series default
+ = 
+\series bold
+M
+\series default
+isalignment 
+\series bold
+R
+\series default
+esistant 
+\series bold
+C
+\series default
+alibration (
+\series bold
+MRC
+\series default
+)
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Requirments
+\end_layout
+
+\begin_layout Standard
+To yield promised accuracy, 
+\series bold
+MRC
+\series default
+ requires:
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Misalignment is the only error mechanism
+\end_layout
+
+\begin_layout Enumerate
+Two accurately known reflect standards 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Flush Short (easy)
+\end_layout
+
+\begin_layout Itemize
+Radiating open (hard)
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Numerical Simulation
+\end_layout
+
+\begin_layout BeginFrame
+Numerical Simulation
+\end_layout
+
+\begin_layout Standard
+Simulation of the calibration processing chain has been used for: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Verification
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Ensure the algorithm can accurately correct measurements given specified
+ unknowns in the ideals.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Modeling
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Heuristically determine causes of measurement artifacts
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Verification
+\end_layout
+
+\begin_layout BeginFrame
+Calibration Processing Chain 
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pics/calibrationProcessingChain-2.svg
+	scale 90
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Calibration Processing Chain 
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pics/calibrationProcessingChain-observables.svg
+	scale 90
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Calibration Processing Chain 
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pics/calibrationProcessingChain-2.svg
+	scale 90
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In simulation everything is observable 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ verification is possible.
+ 
+\end_layout
+
+\begin_layout Standard
+Details of verification can be found in the test-suite of scikit-rf
+\begin_inset CommandInset citation
+LatexCommand cite
+key "scikit-rf"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Modeling Measurements
+\end_layout
+
+\begin_layout BeginFrame
+Generating Measurements
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pics/error_box_with_pertabations.svg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\sigma_{\angle S_{ij}}=.8^{\circ}$
+\end_inset
+
+ ,
+\begin_inset space \qquad{}
+\end_inset
+
+
+\begin_inset Formula $\sigma_{\angle S_{ii}}=.2^{\circ}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Flange Model
+\end_layout
+
+\begin_layout Standard
+Circuit model used to approximate a misaligned flange 
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pics/flange_ckt_model.svg
+	lyxscale 10
+	display false
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+C = 2fF
+\begin_inset Formula $,\quad$
+\end_inset
+
+L = 4nH
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Measurement Results
+\end_layout
+
+\begin_layout BeginFrame
+Experimental Setup
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pics/Photo Jul 31, 2 42 34 PM.jpg
+	lyxscale 10
+	scale 8
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Flange pins removed.
+\end_layout
+
+\begin_layout Standard
+Alignment holes reamed out to .0066
+\begin_inset Quotes erd
+\end_inset
+
+ (
+\begin_inset Formula $=.2a$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+Center dowels used in Thru
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Results
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Alert
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+The following simulation results differ from paper.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+These results include error in ideal definition for the radiating open model.
+ 
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename plots/Error_in_Radiating_Open,_Mag.pdf
+	scale 60
+	BoundingBox 10bp 0bp 245bp 180bp
+	clip
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename plots/Error_in_Radiating_Open,_Phase.pdf
+	scale 60
+	BoundingBox 5bp 0bp 245bp 180bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+1
+\begin_inset Quotes erd
+\end_inset
+
+ Straight Waveguide + Flush Short
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/Straight_Waveguide+Short.pdf
+	scale 60
+	BoundingBox 15bp 0bp 245bp 180bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Measurement
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/simulation_swgst_s11_.pdf
+	scale 60
+	BoundingBox 15bp 0bp 245bp 180bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+1
+\begin_inset Quotes erd
+\end_inset
+
+ Straight Waveguide 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/1"_Waveguide_Reflect.pdf
+	scale 60
+	BoundingBox 12bp 0bp 245bp 180bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Measurement
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/simulation_swg_s11_.pdf
+	scale 60
+	BoundingBox 12bp 0bp 245bp 180bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+1
+\begin_inset Quotes erd
+\end_inset
+
+ Straight Waveguide 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/1"_Waveguide_Transmit.pdf
+	scale 60
+	BoundingBox 10bp 0bp 245bp 180bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Measurement
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/simulation_swg_s21_.pdf
+	scale 60
+	BoundingBox 10bp 0bp 245bp 180bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Flush Thru
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/Flush_Thru_s11.pdf
+	scale 60
+	BoundingBox 10bp 0bp 245bp 180bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Measurement
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/simulation_thru_s11_.pdf
+	scale 60
+	BoundingBox 10bp 0bp 245bp 180bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Flush Thru
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/Flush_Thru_s21.pdf
+	scale 60
+	BoundingBox 10bp 0bp 245bp 180bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Measurement
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename plots/simulation_thru_s21_.pdf
+	scale 60
+	BoundingBox 10bp 0bp 245bp 180bp
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Simulation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout BeginFrame
+Conclusion
+\end_layout
+
+\begin_layout Itemize
+A two-port calibration resistant to flange misalignment has been constructed
+ 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ 
+\series bold
+MRC
+\end_layout
+
+\begin_layout Itemize
+Numerical simulations have been used to 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+verify algorithms works 
+\end_layout
+
+\begin_layout Itemize
+model measured results
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The simulated and measured performance indicate accuracy of radiating open
+ model is likely a limitation.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Flex Alert
+status collapsed
+
+\begin_layout Plain Layout
+This last point is missing from paper.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Availability 
+\end_layout
+
+\begin_layout Standard
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pics/scikit-rf-title-flat.svg
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+SDDL
+\series default
+ and 
+\series bold
+MRC
+\series default
+ Algorithms have been implemented in the open source python module scikit-rf
+ (
+\begin_inset CommandInset href
+LatexCommand href
+name "www.scikit-rf.org"
+target "www.scikit-rf.org"
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+The End
+\end_layout
+
+\begin_layout Standard
+\align center
+End Of Line
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Bibliography 
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "/home/alex/projects/phd/phd"
+options "bibtotoc,ieeetr"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+SDDL by cross ratio 
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{align*}
+z & =\frac{(a-b)(c-d)}{(a-d)(c-b)}\\
+z & =\frac{(a-b)c}{a(c-b)}\\
+z-zbc^{-1} & =\frac{a-b}{a}\\
+\Im(z-zbc^{-1}) & =0\\
+\Im(z) & =\Im(zbc^{-1})\\
+\Im(z) & =\frac{1}{2j}\left(bzc^{-1}-\overline{b}\bar{z}\bar{c}^{-1}\right)\\
+b & =j\frac{\Im(z)}{\Re\left(zc^{-1}\right)}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\end_body
+\end_document
